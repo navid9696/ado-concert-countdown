@@ -1,37 +1,74 @@
-import Image from 'next/image'
+'use client'
+import { useRef, useEffect, useState } from 'react'
 import Countdown from './components/Countdown'
 
 export default function Home() {
+	const audioRef = useRef<HTMLAudioElement | null>(null)
+	const [isPlaying, setIsPlaying] = useState(false)
+
+	useEffect(() => {
+		const audio = audioRef.current
+		if (!audio) return
+		audio.muted = true
+		audio.play().catch(() => {})
+	}, [])
+
+	const handleToggle = () => {
+		const audio = audioRef.current
+		if (!audio) return
+		if (!isPlaying) {
+			audio.muted = false
+			audio.play()
+			setIsPlaying(true)
+		} else {
+			audio.pause()
+			audio.muted = true
+			setIsPlaying(false)
+		}
+	}
+
 	return (
-		<div className='min-h-screen bg-gradient-to-b from-purple-800 to-indigo-900 text-white p-8 flex flex-col items-center'>
-			<div className='w-full max-w-3xl mb-8 relative h-64 sm:h-96'>
-				<Image
-					src='https://i.scdn.co/image/ab6761610000e5ebbcb1c184c322688f10cdce7a'
-					alt='Ado Live Concert'
-					fill
-					className='object-cover rounded-lg'
-					priority
+		<div className='h-dvh relative flex items-center justify-center w-screen min-h-screen'>
+			<div
+				className="
+          absolute inset-0
+          bg-[url('https://preview.redd.it/hibana-mobile-wallpaper-v0-i2buuf5yj0ye1.jpg?width=1080&crop=smart&auto=webp&s=b5b45a024e237920a434218379f8b33a5d5d81f9')]
+          md:bg-[url('https://a.storyblok.com/f/178900/1920x1080/73393b35df/ado-hibana-world-tour.png')]
+          bg-center bg-cover bg-no-repeat
+        "
+			/>
+			<div className='absolute inset-0 bg-black/50' />
+			<div className='relative z-10 flex flex-col items-center justify-center text-center space-y-6 p-6'>
+				<h1 className='text-3xl md:text-6xl font-extrabold text-white smooth-outline'>Ado Live Concert 2025</h1>
+				<h2 className='text-xl text-white smooth-outline'>June 17, 2025 · Berlin · 8.30pm</h2>
+				<div className='w-full max-w-xs'>
+					<Countdown targetDate='2025-06-17T20:30:00' />
+				</div>
+				<audio
+					ref={audioRef}
+					autoPlay
+					loop
+					playsInline
+					muted
+					src='/audio/ado.mp3'
+					className='w-full max-w-xs mb-4 rounded-lg border-4 border-[#00688f]'
 				/>
-			</div>
-			<h1 className='text-4xl font-bold mb-4'>Ado Live Concert 2025</h1>
-			<p className='text-lg mb-2'>June 17, 2025 · Berlin</p>
-			<div className='mb-8 w-full max-w-md'>
-				<Countdown targetDate='2025-06-17T20:30:00' />
-			</div>
-			<div className='flex gap-4'>
-				<a
-					href='https://x.com/ado1024imokenp?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor'
-					className='underline'>
-					Twitter
-				</a>
-				<a href='https://www.instagram.com/ado1024sweetpotet/?hl=en' className='underline'>
-					Instagram
-				</a>
-				<a
-					href='https://ado-shop.com/?srsltid=AfmBOoq0iOESTXClaRPrlFY-q5CnvPLNCJJNKLNMdCGuD50yyyBXmlLV'
-					className='underline'>
-					Official Site
-				</a>
+				<button
+					onClick={handleToggle}
+					className='px-8 py-3 bg-[#00688f] text-white font-semibold rounded-xl hover:bg-opacity-90 cursor-pointer transition'>
+					{isPlaying ? 'Stop Audio' : 'Play Audio'}
+				</button>
+				<div className='flex space-x-8'>
+					{[
+						{ href: 'https://x.com/ado1024imokenp', label: 'Twitter' },
+						{ href: 'https://www.instagram.com/ado1024sweetpotet/', label: 'Instagram' },
+						{ href: 'https://ado-shop.com/', label: 'Official Site' },
+					].map(({ href, label }) => (
+						<a key={label} href={href} className='text-xl font-semibold text-white hover:text-[#00688f] transition'>
+							{label}
+						</a>
+					))}
+				</div>
 			</div>
 		</div>
 	)
