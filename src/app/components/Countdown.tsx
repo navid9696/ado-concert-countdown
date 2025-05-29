@@ -26,7 +26,7 @@ export default function Countdown({ targetDate }: CountdownProps) {
 		return () => clearInterval(timer)
 	}, [targetDate])
 
-	const labels = ['Dni', 'Godzin', 'Minut', 'Sekund']
+	const labels = ['Days', 'Hours', 'Minutes', 'Seconds']
 	const values = [timeLeft.days, timeLeft.hours, timeLeft.minutes, timeLeft.seconds]
 
 	return (
