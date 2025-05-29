@@ -55,9 +55,15 @@ export default function Home() {
 				/>
 				<button
 					onClick={handleToggle}
-					className='px-8 py-3 bg-[#00688f] text-white font-semibold rounded-xl hover:bg-opacity-90 cursor-pointer transition'>
+					className='cursor-pointer
+        px-8 py-3
+             bg-[#00688f] text-white font-semibold rounded-xl
+           transform transition-all duration-300 ease-in-out
+       hover:scale-105 hover:shadow-lg hover:bg-[#005f7e]
+  				'>
 					{isPlaying ? 'Stop Audio' : 'Play Audio'}
 				</button>
+
 				<div className='flex space-x-8'>
 					{[
 						{ href: 'https://x.com/ado1024imokenp', label: 'Twitter' },
